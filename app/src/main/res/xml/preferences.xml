@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/ranking_header">
+
+        <ListPreference
+            android:defaultValue="marks"
+            android:entries="@array/ranking_entries"
+            android:entryValues="@array/ranking_values"
+            android:key="ranking"
+            android:summary="@string/ranking_summary"
+            android:title="@string/rank_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/pieChart_header">
+
+        <ListPreference
+            android:defaultValue="percentages"
+            android:entries="@array/display_entries"
+            android:entryValues="@array/display_values"
+            android:key="pieChart"
+            android:summary="@string/display_summary"
+            android:title="Display"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

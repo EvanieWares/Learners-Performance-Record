@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/border.xml" value="0.1125" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/border2.xml" value="0.1125" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/border3.xml" value="0.1095" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/ic_about.xml" value="0.1125" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/ic_add.xml" value="0.1535" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/ic_clear.xml" value="0.1125" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/ic_clear_marks.xml" value="0.2075" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/ic_email.xml" value="0.1535" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/ic_login_circle.xml" value="0.1835" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/ic_password.xml" value="0.1535" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/ic_search.xml" value="0.1095" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/login_bg.xml" value="0.1535" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/drawable/rounded_edittext.xml" value="0.1535" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout-v21/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout-v21/activity_settings.xml" value="0.1" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_about_app.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_add_assessment.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_add_student.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_add_subjects.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_assessments_home.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_drawer_base.xml" value="0.15443840579710144" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_export.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_faq.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_forgot_password.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_help_support.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_privacy_policy.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_register.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_remove_student.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_remove_subjects.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_settings.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_splash.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_student_details_home.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_subjects_home.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_update_marks.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_update_student_data.xml" value="0.15443840579710144" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/activity_view_student_data.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/content_layout.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/custom_preferences.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/custom_preferences_layout.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/fragment_add_students.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/fragment_add_subjects.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/fragment_remove_student.xml" value="0.1859375" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/fragment_remove_subjects.xml" value="0.1859375" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/fragment_student_details.xml" value="0.1859375" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/fragment_view_subjects.xml" value="0.1859375" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/main_drawer_header.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/layout/rv_layout.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/menu/assessments_nav_menu.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/menu/drawer_menu.xml" value="0.25" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/menu/search.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/menu/student_details_nav_menu.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/menu/subjects_nav_menu.xml" value="0.2" />
+        <entry key="..\:/Users/chiso/AndroidStudioProjects/LPRMaker/app/src/main/res/xml/preferences.xml" value="0.2" />
+        <entry key="app/src/main/res/drawable-v21/ic_menu_camera.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable-v21/ic_menu_slideshow.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/border.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/border1.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/border2.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/border3.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/border4.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/border5.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/border6.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/ic_help.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.361" />
+        <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.361" />
+        <entry key="app/src/main/res/layout-v21/activity_main.xml" value="0.2845714285714286" />
+        <entry key="app/src/main/res/layout/activity_about_app.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_add_student.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_all_students.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_drawer_base.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_export.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_export_data.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_faq.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_help_support.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_privacy_policy.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_remove_student.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_settings.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/activity_update_student_data.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_view_student_data.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/avs.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/avs_backup.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/content_layout.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.20364583333333333" />
+        <entry key="app/src/main/res/layout/fragment_add.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/fragment_remove.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/fragment_update.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/fragment_view.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/main_drawer_header.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/nav_header.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/recycler_items.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/row.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/rv_backup.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/rv_layout.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/settings_activity.xml" value="0.3890625" />
+        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.3890625" />
+        <entry key="app/src/main/res/menu/drawer_menu.xml" value="0.3890625" />
+        <entry key="app/src/main/res/menu/main_activity2.xml" value="0.3890625" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.361" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.211" />
+        <entry key="app/src/main/res/xml/preferences.xml" value="0.189209726443769" />
+        <entry key="app/src/main/res/xml/root_preferences.xml" value="0.3890625" />
+        <entry key="app/src/main/res/xml/settings_preferences.xml" value="0.3880208333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.2" />
+      </ProjectState>
+    </option>
+  </component>
+</project>

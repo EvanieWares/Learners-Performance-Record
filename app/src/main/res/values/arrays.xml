@@ -1,0 +1,23 @@
+<resources>
+    <!-- Ranking Preference -->
+    <string-array name="ranking_entries">
+        <item>Total marks</item>
+        <item>Total grades</item>
+    </string-array>
+
+    <string-array name="ranking_values">
+        <item>marks</item>
+        <item>grades</item>
+    </string-array>
+
+    <!-- Pie Chart Preference -->
+    <string-array name="display_entries">
+        <item>Percentages</item>
+        <item>Values</item>
+    </string-array>
+
+    <string-array name="display_values">
+        <item>percentages</item>
+        <item>values</item>
+    </string-array>
+</resources>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "73492168943",
+    "firebase_url": "https://learners-performance-default-rtdb.firebaseio.com",
+    "project_id": "learners-performance",
+    "storage_bucket": "learners-performance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73492168943:android:2ed510a418e1a61973db1a",
+        "android_client_info": {
+          "package_name": "com.evanie.lprmaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73492168943-ncmemrjt1p3gifocckn38s522c9440mo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKKIpMITslKOPLToWXl_7kkr15E-bcCsU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73492168943-ncmemrjt1p3gifocckn38s522c9440mo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

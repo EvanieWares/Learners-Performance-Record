@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/topMenu"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_students"
+            android:icon="@drawable/ic_student_details"
+            android:title="@string/students" />
+        <item
+            android:id="@+id/nav_subjects"
+            android:icon="@drawable/ic_subjects"
+            android:title="@string/subjects" />
+        <item
+            android:id="@+id/nav_continuous_assessment"
+            android:icon="@drawable/ic_continuous_assessment"
+            android:title="@string/continuous_assessment" />
+        <item
+            android:id="@+id/nav_update_marks"
+            android:icon="@drawable/ic_update"
+            android:title="@string/update_marks" />
+        <item
+            android:id="@+id/nav_progress_record"
+            android:icon="@drawable/ic_view"
+            android:title="@string/progress_record" />
+
+    </group>
+
+    <group
+        android:id="@+id/dataExport"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_export_import"
+            android:icon="@drawable/ic_export"
+            android:title="@string/export_import_data" />
+
+    </group>
+
+    <group
+        android:id="@+id/bottomMenu"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/action_settings" />
+        <item
+            android:id="@+id/nav_help_support"
+            android:icon="@drawable/ic_help"
+            android:title="@string/help_support" />
+
+    </group>
+
+    <group
+        android:id="@+id/authMenu"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_login"
+            android:title="@string/login" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/logout" />
+
+    </group>
+</menu>
