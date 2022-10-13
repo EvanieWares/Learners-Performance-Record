@@ -1,6 +1,5 @@
 package com.evanie.lprmaker;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +20,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -47,10 +45,8 @@ public class ExportActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     //Context context = this;
-    @SuppressLint("SdCardPath")
-    final String databaseDirectory = "/data/data/com.evanie.lprmaker/databases/";
     final String databaseName = "learners.db";
-    String databasePath;
+    String databaseDirectory;
     final String rootPath = Environment.getExternalStorageDirectory().toString();
     final String filesPath = rootPath+"/Android/data/com.evanie.lprmaker/files/databases";
 
@@ -59,8 +55,7 @@ public class ExportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_export);
 
-        databasePath = getDatabasePath(Utils.databaseName).getPath();
-        Toast.makeText(this, databasePath, Toast.LENGTH_SHORT).show();
+        databaseDirectory = getDatabasePath(databaseName).getParent();
 
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance().getReference();
@@ -106,7 +101,7 @@ public class ExportActivity extends AppCompatActivity {
         btnExport.setOnClickListener(view -> {
             if (Utils.storagePermissionGranted(ExportActivity.this)){
                 helper.exportDB(rankBy);
-                Toast.makeText(ExportActivity.this, "The file was successfully exported to \"Documents/Performance Record.csv\"", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExportActivity.this, "The file was successfully exported to \"LPR/Performance Record.csv\"", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -145,12 +140,14 @@ public class ExportActivity extends AppCompatActivity {
 
                     File file = new File(filesPath);
                     if (!file.exists()){
-                        if (file.mkdirs());
+                        if (file.mkdirs()){
+                            Log.v("TAG", filesPath+" created");
+                        }
                     }
 
                     //download the file
                     InputStream inputStream = connection.getInputStream();
-                    OutputStream outputStream = new FileOutputStream(file+"/learners.db");
+                    OutputStream outputStream = new FileOutputStream(file+"/"+databaseName);
                     byte[] data = new byte[1024];
                     long total = 0;
 
@@ -165,27 +162,16 @@ public class ExportActivity extends AppCompatActivity {
                     inputStream.close();
 
                     handler.post(() -> {
-                        try {
-                            helper.copyDatabase();
-                        } catch (Exception e) {
-                            Log.v("TAG", e.getMessage());
-                        }
-                        /*File database = getApplicationContext().getDatabasePath(databaseName);
-                        **if (database.exists()){
-                            database.delete();
-                            Log.v("TAG", "Database is available");
-                            Log.v("TAG", "Database deleted");
-                        }
-                        if (!database.exists()){
-                            Log.v("TAG", "Database is not available");
-                            helper.getReadableDatabase();
-                            if (copyDatabase()){
-                                Log.v("TAG", "Database updated");
-                                Toast.makeText(ExportActivity.this, "Data is updated", Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(ExportActivity.this, "Update failed", Toast.LENGTH_SHORT).show();
+                        if (helper.copyDatabase()){
+                            Toast.makeText(ExportActivity.this, "Data is updated", Toast.LENGTH_SHORT)
+                                    .show();
+                            if (file.delete()){
+                                Log.i("TAG", "Downloaded file was deleted");
                             }
-                        }*/
+                        }else {
+                            Toast.makeText(ExportActivity.this, "Update failed", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
                         progressDialog.dismiss();
                     });
                 }catch (Exception e){
@@ -213,27 +199,6 @@ public class ExportActivity extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(ExportActivity.this, MainActivity.class));
         finish();
-    }
-
-    private boolean copyDatabase() {
-        try {
-            File file = new File(filesPath, databaseName);
-            Log.v("TAG", "File attached");
-            InputStream inputStream = new FileInputStream(file);
-            OutputStream outputStream = new FileOutputStream(databasePath);
-            byte[] buff = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buff)) > 0){
-                outputStream.write(buff, 0, length);
-            }
-            Log.v("TAG", "Database written");
-            outputStream.flush();
-            outputStream.close();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     @Override

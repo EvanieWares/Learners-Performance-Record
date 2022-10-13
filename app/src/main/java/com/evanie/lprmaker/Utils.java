@@ -73,12 +73,12 @@ public class Utils extends Activity {
     }
 
     //creating the download link of the app update
-    public static void createDownloadLink(Context context, FirebaseAnalytics analytics, StorageReference latestAppPath, StorageReference storage, String latestVersionName){
+    public static void createDownloadLink(Context context, FirebaseAnalytics analytics, StorageReference storage, String latestVersionName){
         Bundle bundle = new Bundle();
         bundle.putString("download", "update_button");
         analytics.logEvent("update_app", bundle);
 
-        latestAppPath = storage.child("latestVersion").child(latestVersionName +".apk");
+        StorageReference latestAppPath = storage.child("latestVersion").child(latestVersionName + ".apk");
         latestAppPath.getDownloadUrl().addOnSuccessListener(uri -> {
             String url = String.valueOf(uri);
             Log.e("TAG", "Download link created: "+url);
@@ -113,5 +113,33 @@ public class Utils extends Activity {
         }
         return versionName;
     }
+
+    /*
+    **
+    private boolean copyDatabase() {
+        try {
+            File file = new File(databaseDirectory, downloadedDatabaseName);
+            Log.v("TAG", "File attached");
+            InputStream inputStream = new FileInputStream(file);
+            OutputStream outputStream = new FileOutputStream(absoluteDatabasePath);
+            //OutputStream outputStream2 = new FileOutputStream(canonicalDatabasePath);
+            byte[] buff = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buff)) > 0){
+                outputStream.write(buff, 0, length);
+                //outputStream2.write(buff, 0, length);
+            }
+            Log.v("TAG", "Database written");
+            outputStream.flush();
+            outputStream.close();
+            outputStream2.flush();
+            outputStream2.close();
+            return true;
+} catch (Exception e) {
+        e.printStackTrace();
+        return false;
+        }
+        }
+     */
 
 }

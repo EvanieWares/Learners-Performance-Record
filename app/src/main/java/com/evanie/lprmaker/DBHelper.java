@@ -36,7 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //this is called when a database version number is changed
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("drop Table if exists learners");
+        sqLiteDatabase.execSQL("drop Table if exists STUDENT_MARKS");
     }
 
     //a function to add students
@@ -407,13 +407,17 @@ public class DBHelper extends SQLiteOpenHelper {
     //export learners' data to in CSV
     public void exportDB(String rankBy){
         String root = Environment.getExternalStorageDirectory().toString();
-        File exportDir = new File(root + "/Documents");
+        File exportDir = new File(root + "/LPR");
         if (!exportDir.exists()){
-            if (exportDir.mkdirs());
+            if (exportDir.mkdirs()){
+                Log.i("TAG", "Export directory was created");
+            }
         }
         File file = new File(exportDir, "Performance Record.csv");
         try {
-            if (file.createNewFile());
+            if (file.createNewFile()){
+                Log.i("TAG", "Performance Record.csv file created successfully");
+            }
             CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
             String s = "";
             String total;
@@ -456,19 +460,39 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void copyDatabase(){
-        String root = Environment.getExternalStorageDirectory().toString();
-        String databaseDir = root+"/Android/data/com.evanie.lprmaker/files/databases/learners.db";
-        SQLiteDatabase db = this.getWritableDatabase();
-        if (!db.isDbLockedByCurrentThread()){
-            db.execSQL("ATTACH "+databaseDir+" AS SUB");
+    public boolean copyDatabase(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            db.execSQL("ATTACH DATABASE '/sdcard/Android/data/com.evanie.lprmaker/files/databases/learners.db' AS SUB");
             Log.v("TAG", "Database attached");
-            db.execSQL("INSERT INTO STUDENT_TABLE SELECT * FROM SUB.STUDENT_TABLE");
+            db.execSQL("DROP TABLE IF EXISTS STUDENT_MARKS");
+            String createTableStatement = "CREATE TABLE " + STUDENT_MARKS + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+            db.execSQL(createTableStatement);
+            db.execSQL("INSERT INTO STUDENT_MARKS (" + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + ") SELECT " + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + " FROM SUB.STUDENT_MARKS");
+
+            @SuppressLint("Recycle") Cursor cursor = db.rawQuery("Select * from SUB.STUDENT_MARKS", null);
+            for (int i = 3; i < cursor.getColumnCount(); i++){
+                db.execSQL("ALTER TABLE STUDENT_MARKS ADD " + cursor.getColumnName(i) + " INTEGER");
+                Log.d("TAG", cursor.getColumnName(i));
+            }
+            if (cursor.moveToFirst()){
+                do {
+                    for (int i = 3; i < cursor.getColumnCount(); i++){
+                        String id = cursor.getString(0);
+                        ContentValues cv = new ContentValues();
+                        cv.put(cursor.getColumnName(i), cursor.getString(i));
+                        db.update(STUDENT_MARKS, cv, COLUMN_ID + " = ? ", new String[]{id});
+                    }
+                }while (cursor.moveToNext());
+            }
+            db.execSQL("INSERT OR REPLACE INTO STUDENT_MARKS SELECT * FROM SUB.STUDENT_MARKS");
             Log.v("TAG", "Database copied");
-            db.execSQL("DETACH SUB");
+            db.execSQL("DETACH DATABASE SUB");
             Log.v("TAG", "Database detached");
-        } else {
-            Log.v("TAG", "Database is locked");
+            return true;
+        } catch (Exception e){
+            Log.v("TAG", e.getMessage());
+            return false;
         }
     }
 }

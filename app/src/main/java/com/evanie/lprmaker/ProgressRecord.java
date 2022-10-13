@@ -1,5 +1,6 @@
 package com.evanie.lprmaker;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -15,15 +16,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.SearchView;
 
-import com.evanie.lprmaker.databinding.ActivityViewStudentDataBinding;
+import com.evanie.lprmaker.databinding.ActivityProgressRecordBinding;
 
 public class ProgressRecord extends DrawerBaseActivity {
 
-    ActivityViewStudentDataBinding activityViewStudentDataBinding;
+    ActivityProgressRecordBinding activityProgressRecordBinding;
     SharedPreferences sp;
     String rankBy;
     DBHelper db;
     Cursor cursor;
+    ProgressDialog loading;
 
     TableLayout table;
     TableRow title, row;
@@ -31,14 +33,16 @@ public class ProgressRecord extends DrawerBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityViewStudentDataBinding = ActivityViewStudentDataBinding.inflate(getLayoutInflater());
-        setContentView(activityViewStudentDataBinding.getRoot());
+        activityProgressRecordBinding = ActivityProgressRecordBinding.inflate(getLayoutInflater());
+        setContentView(activityProgressRecordBinding.getRoot());
         allocateActivityTitle("All Students Data");
 
         rankBy = "";
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         rankBy = sp.getString("ranking", "");
 
+        loading = new ProgressDialog(this);
+        loading.setMessage("Loading data...");
         table = findViewById(R.id.tableMain);
         title = new TableRow(this);
         title.setPadding(5,15,5,15);
@@ -46,8 +50,9 @@ public class ProgressRecord extends DrawerBaseActivity {
 
         db = new DBHelper(this);
         cursor = db.getRankedData(rankBy);
+
         for (int a = 0; a < cursor.getColumnCount()-1; a++){
-            TextView textView = new TextView(this);
+            TextView textView = new TextView(getApplicationContext());
             String text = " " + cursor.getColumnName(a) + " ";
             textView.setText(text);
             textView.setTextSize(14);
@@ -57,10 +62,10 @@ public class ProgressRecord extends DrawerBaseActivity {
         table.addView(title);
 
         while (cursor.moveToNext()){
-            row = new TableRow(this);
+            row = new TableRow(getApplicationContext());
             row.setPadding(5,0,5,0);
             for (int a = 0; a < cursor.getColumnCount()-1; a++){
-                TextView textView = new TextView(this);
+                TextView textView = new TextView(getApplicationContext());
                 String text = " " + cursor.getString(a) + " ";
                 textView.setText(text);
                 textView.setTextSize(12);
@@ -73,6 +78,7 @@ public class ProgressRecord extends DrawerBaseActivity {
         }
 
     }
+
 
     @Override
     public void onBackPressed() {

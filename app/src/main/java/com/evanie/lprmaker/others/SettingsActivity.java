@@ -28,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
     MaterialCardView clearData, clearMarks, updateApp, aboutApp;
     TextView settingsAppVersionName, settingsLatestAppVersionName;
     StorageReference storage = FirebaseStorage.getInstance().getReference();
-    StorageReference latestAppPath;
+    //StorageReference latestAppPath;
     FirebaseAnalytics analytics;
     int latestVersionCode;
     String latestVersionName;
@@ -71,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
         clearData.setOnClickListener(v -> clearDataAlert());
         clearMarks.setOnClickListener(v -> clearMarksAlert());
         aboutApp.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, AboutAppActivity.class)));
-        updateApp.setOnClickListener(v -> Utils.createDownloadLink(SettingsActivity.this, analytics, latestAppPath, storage, latestVersionName));
+        updateApp.setOnClickListener(v -> Utils.createDownloadLink(SettingsActivity.this, analytics, storage, latestVersionName));
 
     }
 

@@ -301,7 +301,7 @@ public class MainActivity extends DrawerBaseActivity {
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("New Update Available")
                 .setMessage(R.string.update_alert)
-                .setPositiveButton("Download", (dialog, which) -> Utils.createDownloadLink(MainActivity.this, analytics, latestAppPath, storage, latestVersionName))
+                .setPositiveButton("Download", (dialog, which) -> Utils.createDownloadLink(MainActivity.this, analytics, storage, latestVersionName))
                 .setNegativeButton("Remind me later", (dialog, which) -> dialog.dismiss()).show();
         alertDialog.setCancelable(false);
     }
