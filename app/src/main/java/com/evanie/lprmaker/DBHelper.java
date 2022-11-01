@@ -509,6 +509,39 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    //remove assessment
+    public void removeAssessment(String subject, String assessmentTable) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS _"+assessmentTable+"");
+        db.execSQL("ALTER TABLE "+assessmentTable+" RENAME TO _"+assessmentTable+"");
+        String createTableStatement = "CREATE TABLE " + assessmentTable + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        db.execSQL(createTableStatement);
+        db.execSQL("INSERT INTO "+assessmentTable+" (" + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + ") SELECT " + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + " FROM _"+assessmentTable+"");
+
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("Select * from _"+assessmentTable+"", null);
+        for (int i = 3; i < cursor.getColumnCount()-3; i++){
+            if (!cursor.getColumnName(i).equals(subject)) {
+                db.execSQL("ALTER TABLE "+assessmentTable+" ADD " + cursor.getColumnName(i) + " INTEGER");
+                Log.d("TAG", cursor.getColumnName(i));
+            }
+        }
+        if (cursor.moveToFirst()){
+            do {
+                for (int i = 3; i < cursor.getColumnCount()-3; i++){
+                    if (!cursor.getColumnName(i).equals(subject)){
+                        String id = cursor.getString(0);
+                        ContentValues cv = new ContentValues();
+                        cv.put(cursor.getColumnName(i), cursor.getString(i));
+                        db.update(assessmentTable, cv, COLUMN_ID + " = ? ", new String[]{id});
+                    }
+                }
+            }while (cursor.moveToNext());
+        }
+        db.execSQL("DROP TABLE _STUDENT_MARKS_old");
+        Log.i("TAG", "Removed a subject: " + subject);
+        db.close();
+    }
+
     /*
     CREATE TRIGGER add_marks
     AFTER UPDATE OF ARTS,
