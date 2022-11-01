@@ -1,6 +1,5 @@
 package com.evanie.lprmaker;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -25,7 +24,6 @@ public class ProgressRecord extends DrawerBaseActivity {
     String rankBy;
     DBHelper db;
     Cursor cursor;
-    ProgressDialog loading;
 
     TableLayout table;
     TableRow title, row;
@@ -41,8 +39,6 @@ public class ProgressRecord extends DrawerBaseActivity {
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         rankBy = sp.getString("ranking", "");
 
-        loading = new ProgressDialog(this);
-        loading.setMessage("Loading data...");
         table = findViewById(R.id.tableMain);
         title = new TableRow(this);
         title.setPadding(5,15,5,15);

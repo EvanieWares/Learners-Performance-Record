@@ -88,5 +88,13 @@
     <string name="update_app_img">update_app.img</string>
     <string name="update_alert">We recommend that you update to the latest version. You can keep using this app while downloading the update. Install the new app when the download completes</string>
     <string name="or">OR</string>
+    <string name="arts">ARTS</string>
+    <string name="chichewa">CHICHEWA</string>
+    <string name="english">ENGLISH</string>
+    <string name="maths">MATHS</string>
+    <string name="social">SOCIAL</string>
+    <string name="science">SCIENCE</string>
+    <string name="add_new_assessment">Add New</string>
+    <string name="update_existing_assessment">Update existing</string>
 
 </resources>

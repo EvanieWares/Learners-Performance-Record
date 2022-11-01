@@ -47,8 +47,8 @@ public class ExportActivity extends AppCompatActivity {
     //Context context = this;
     final String databaseName = "learners.db";
     String databaseDirectory;
-    final String rootPath = Environment.getExternalStorageDirectory().toString();
-    final String filesPath = rootPath+"/Android/data/com.evanie.lprmaker/files/databases";
+    static final String rootPath = Environment.getExternalStorageDirectory().toString();
+    final static String filesPath = rootPath+"/Android/data/com.evanie.lprmaker/files/databases";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

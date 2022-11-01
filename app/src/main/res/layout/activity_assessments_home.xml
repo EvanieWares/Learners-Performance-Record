@@ -1,45 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".assessments.Assessments">
 
     <HorizontalScrollView
+        android:id="@+id/assessmentTitleHorizontalScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start">
-
-            <TableLayout
-                android:id="@+id/assessmentTitle"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/artsAssessment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true">
-
-            </TableLayout>
-
-        </RelativeLayout>
-
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:text="@string/arts"/>
+            <TextView
+                android:id="@+id/chichewaAssessment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:text="@string/chichewa"/>
+            <TextView
+                android:id="@+id/englishAssessment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:text="@string/english"/>
+            <TextView
+                android:id="@+id/mathsAssessment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:text="@string/maths"/>
+            <TextView
+                android:id="@+id/scienceAssessment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:text="@string/science"/>
+            <TextView
+                android:id="@+id/socialAssessment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:text="@string/social"/>
+        </LinearLayout>
     </HorizontalScrollView>
-
-    <TextView
-        android:id="@+id/txtAssessmentName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="#ffffff">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/assessmentTitleHorizontalScrollView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <HorizontalScrollView
             android:layout_width="fill_parent"
@@ -51,11 +81,10 @@
                 android:layout_gravity="start">
 
                 <TableLayout
-                    android:id="@+id/assessmentDetails"
+                    android:id="@+id/assessmentTable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true">
-
                 </TableLayout>
 
             </RelativeLayout>
@@ -64,4 +93,21 @@
 
     </ScrollView>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/addNewAssessment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_assessment"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <Button
+        android:id="@+id/updateExistingAssessment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/update_existing_assessment"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

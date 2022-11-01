@@ -18,7 +18,6 @@ import com.evanie.lprmaker.R;
 public class AddStudentsFragment extends Fragment {
 
     Button btnAdd;
-    Button r;
     EditText stName, stID;
     RadioGroup genderRadioGroup;
     String sex;

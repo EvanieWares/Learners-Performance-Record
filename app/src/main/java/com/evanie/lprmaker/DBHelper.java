@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-
 public class DBHelper extends SQLiteOpenHelper {
 
     //table values for student marks
@@ -30,7 +29,20 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE " + STUDENT_MARKS + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT, TOTAL INTEGER, GRADE INTEGER, TOTAL_GRADE INTEGER)";
+        String createArtsAssessmentsTable = "CREATE TABLE " + Utils.ARTS_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createChichewaAssessmentsTable = "CREATE TABLE " + Utils.CHICHEWA_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createEnglishAssessmentsTable = "CREATE TABLE " + Utils.ENGLISH_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createMathsAssessmentsTable = "CREATE TABLE " + Utils.MATHS_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createScienceAssessmentsTable = "CREATE TABLE " + Utils.SCIENCE_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createSocialAssessmentsTable = "CREATE TABLE " + Utils.SOCIAL_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+
         db.execSQL(createTableStatement);
+        db.execSQL(createArtsAssessmentsTable);
+        db.execSQL(createChichewaAssessmentsTable);
+        db.execSQL(createEnglishAssessmentsTable);
+        db.execSQL(createMathsAssessmentsTable);
+        db.execSQL(createScienceAssessmentsTable);
+        db.execSQL(createSocialAssessmentsTable);
     }
 
     //this is called when a database version number is changed
@@ -48,6 +60,14 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ID, id);
         cv.put(COLUMN_NAME, name);
         cv.put(COLUMN_SEX, sex);
+
+        db.insert(Utils.ARTS_TABLE, null, cv);
+        db.insert(Utils.CHICHEWA_TABLE, null, cv);
+        db.insert(Utils.ENGLISH_TABLE, null, cv);
+        db.insert(Utils.MATHS_TABLE, null, cv);
+        db.insert(Utils.SCIENCE_TABLE, null, cv);
+        db.insert(Utils.SOCIAL_TABLE, null, cv);
+
         cv.put("GRADE", 1);
         cv.put("TOTAL_GRADE", allSubjects().size());
 
@@ -58,24 +78,6 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
         db.insert(STUDENT_MARKS, null, cv);
-        /*Log.d("TAG", "Added new student: " + name + " to the MAIN table");
-
-        //add in all assessment tables
-        cv.clear();
-        cv.put(COLUMN_ID, id);
-        cv.put(COLUMN_NAME, name);
-        cv.put(COLUMN_SEX, sex);
-
-        if (allSubjects().size() != 0) {
-            for (int i = 0; i < allSubjects().size(); i++) {
-                cursor = db.rawQuery("Select * from " + allSubjects().get(i) + "", null);
-                for (int j = 3; j < cursor.getColumnCount(); j++) {
-                    cv.put(cursor.getColumnName(j), 0);
-                }
-                db.insert(allSubjects().get(i), null, cv);
-                Log.e("TAG", "Added new student: " + name + " to the " + allSubjects().get(i) + " table");
-            }
-        }*/
     }
 
     //get all the subjects
@@ -123,11 +125,28 @@ public class DBHelper extends SQLiteOpenHelper {
         return update == 1;
     }
 
+    //a function that updates students' assessment scores
+    public boolean updateStudentAssessmentMarks(String assessment, String id, int marks, String subject){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(subject, marks);
+        int update = db.update(assessment, cv, COLUMN_ID + " = ? ", new String[]{id});
+        return update == 1;
+    }
+
     //get all learners' data
     public Cursor getData(){
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor;
         cursor = DB.rawQuery("Select * from STUDENT_MARKS", null);
+        return cursor;
+    }
+
+    //get assessment data
+    public Cursor getAssessmentData(String subject){
+        SQLiteDatabase DB = this.getWritableDatabase();
+        Cursor cursor;
+        cursor = DB.rawQuery("Select * from "+subject+"", null);
         return cursor;
     }
 
@@ -139,13 +158,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }else {
             cursor = db.rawQuery("Select * from STUDENT_MARKS order by TOTAL desc", null);
         }
-        return cursor;
-    }
-
-    public Cursor getAssessmentData(String tableName){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor;
-        cursor = db.rawQuery("Select * from " + tableName + " order by TOTAL desc", null);
         return cursor;
     }
 
@@ -239,13 +251,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //delete student from the main table
         db.delete(STUDENT_MARKS, COLUMN_ID + " = ? ", new String[]{ id });
-        Log.d("TAG", "Removed student with the ID: " + id + " from the MAIN table");
 
-        //delete student from the assessment tables
-        /*for (int i = 0; i < allSubjects().size(); i++) {
-            db.delete(allSubjects().get(i), COLUMN_ID + " = ? ", new String[]{ id });
-            Log.e("TAG", "Removed student with the ID: " + id + " from the " + allSubjects().get(i) + " table");
-        }*/
+        //remove student from assessment table
+        db.delete(Utils.ARTS_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
+        db.delete(Utils.CHICHEWA_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
+        db.delete(Utils.ENGLISH_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
+        db.delete(Utils.MATHS_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
+        db.delete(Utils.SCIENCE_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
+        db.delete(Utils.SOCIAL_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
+
+        Log.d("TAG", "Removed student with the ID: " + id + " from the MAIN table");
         db.close();
     }
 
@@ -307,27 +322,6 @@ public class DBHelper extends SQLiteOpenHelper {
             }
             Log.i("TAG", "Added new subject: " + subject);
         }
-
-        //create assessment table for the subject
-        /*if (!subject.equals("TOTAL") && !subject.equals("GRADE") && !subject.equals("TOTAL_GRADE")) {
-            String queryString = "CREATE TABLE " + subject + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT, TOTAL INTEGER)";
-            db.execSQL(queryString);
-            db.execSQL("INSERT INTO " + subject + " (" + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + ") SELECT " + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + " FROM STUDENT_MARKS");
-
-            cursor = db.rawQuery("Select * from " + subject + "", null);
-            if (cursor.moveToFirst()) {
-                do {
-                    ContentValues cv = new ContentValues();
-                    String id = cursor.getString(0);
-                    for (int j = 3; j < cursor.getColumnCount(); j++) {
-                        cv.put(cursor.getColumnName(j), 0);
-                    }
-                    db.update(subject, cv, COLUMN_ID + " = ? ", new String[]{id});
-                    cv.clear();
-                }while (cursor.moveToNext());
-            }
-            Log.e("TAG", "Created new assessment table: " + subject);
-        }*/
         db.close();
     }
 
@@ -397,10 +391,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         db.execSQL("DROP TABLE _STUDENT_MARKS_old");
         Log.i("TAG", "Removed a subject: " + subject);
-
-        //delete assessment table
-        /*db.execSQL("DROP TABLE IF EXISTS " + subject + "");
-        Log.e("TAG", "Deleted assessment table: " +subject);*/
         db.close();
     }
 
@@ -462,10 +452,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean copyDatabase(){
         SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS _STUDENT_MARKS_old");
+        db.execSQL("ALTER TABLE STUDENT_MARKS RENAME TO _STUDENT_MARKS_old");
         try {
-            db.execSQL("ATTACH DATABASE '/sdcard/Android/data/com.evanie.lprmaker/files/databases/learners.db' AS SUB");
+            db.execSQL("ATTACH DATABASE '"+ExportActivity.filesPath+"/learners.db"+"' AS SUB");
             Log.v("TAG", "Database attached");
-            db.execSQL("DROP TABLE IF EXISTS STUDENT_MARKS");
             String createTableStatement = "CREATE TABLE " + STUDENT_MARKS + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
             db.execSQL(createTableStatement);
             db.execSQL("INSERT INTO STUDENT_MARKS (" + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + ") SELECT " + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + " FROM SUB.STUDENT_MARKS");
@@ -491,8 +482,45 @@ public class DBHelper extends SQLiteOpenHelper {
             Log.v("TAG", "Database detached");
             return true;
         } catch (Exception e){
+            db.execSQL("ALTER TABLE _STUDENT_MARKS_old RENAME TO STUDENT_MARKS");
             Log.v("TAG", e.getMessage());
             return false;
         }
     }
+
+    //ASSESSMENT SECTION
+
+    //add assessments
+    public void addAssessment(String subject){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = getAssessmentData(subject);
+        String assessmentName = "ASSESSMENT_"+(cursor.getColumnCount()-2);
+        db.execSQL("ALTER TABLE "+subject+" ADD " + assessmentName + " INTEGER");
+        if (cursor.moveToFirst()){
+            do {
+                ContentValues cv = new ContentValues();
+                String id = cursor.getString(0);
+                cv.put(assessmentName, 0);
+                db.update(subject, cv, COLUMN_ID + " = ? ", new String[]{id});
+                cv.clear();
+            }while (cursor.moveToNext());
+        }
+        Log.i("TAG", "Added new assessment: " + assessmentName);
+        db.close();
+    }
+
+    /*
+    CREATE TRIGGER add_marks
+    AFTER UPDATE OF ARTS,
+            CHICHEWA,
+            ENGLISH,
+            MATHEMATICS,
+            SCIENCE,
+            SOCIAL
+    ON STUDENT_MARKS
+    BEGIN
+    UPDATE STUDENT_MARKS
+    SET TOTAL = ARTS + CHICHEWA + ENGLISH + MATHEMATICS + SCIENCE + SOCIAL;
+    END;
+    */
 }

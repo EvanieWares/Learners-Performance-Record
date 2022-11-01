@@ -6,6 +6,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -25,12 +26,32 @@ import com.google.firebase.storage.StorageReference;
 
 public class Utils extends Activity {
 
+    Resources res = getResources();
     final static String databaseName = "learners.db";
+    final static String COLUMN_ARTS = "ARTS";
+    final static String COLUMN_NAME = "NAME";
+    final static String COLUMN_SEX = "SEX";
+    final static String COLUMN_ID = "ID";
+    final String resources = res.getString(R.string.chichewa);
+    public final static String COLUMN_CHICHEWA = "CHICHEWA";
+    final static String COLUMN_ENGLISH = "ENGLISH";
+    final static String COLUMN_MATHS = "MATHS";
+    final static String COLUMN_SCIENCE = "SCIENCE";
+    final static String COLUMN_SOCIAL = "SOCIAL";
+    public static final String STUDENT_MARKS = "STUDENT_MARKS";
+    public static final String ARTS_TABLE = "ARTS_ASSESSMENT";
+    public static final String CHICHEWA_TABLE = "CHICHEWA_ASSESSMENT";
+    public static final String ENGLISH_TABLE = "ENGLISH_ASSESSMENT";
+    public static final String MATHS_TABLE = "MATHS_ASSESSMENT";
+    public static final String SCIENCE_TABLE = "SCIENCE_ASSESSMENT";
+    public static final String SOCIAL_TABLE = "SOCIAL_ASSESSMENT";
     final static String keyAppMode = "appMode";
     final static String valueOffline = "offline";
     final static String valueLoggedIn = "loggedIn";
     public static final String keyLatestVersionCode = "latestVersionCode";
     public static final String keyLatestVersionName = "latestVersionName";
+
+
 
     // check if storage permission is granted. If not, request permission
     public static boolean storagePermissionGranted(Context context){
@@ -113,33 +134,5 @@ public class Utils extends Activity {
         }
         return versionName;
     }
-
-    /*
-    **
-    private boolean copyDatabase() {
-        try {
-            File file = new File(databaseDirectory, downloadedDatabaseName);
-            Log.v("TAG", "File attached");
-            InputStream inputStream = new FileInputStream(file);
-            OutputStream outputStream = new FileOutputStream(absoluteDatabasePath);
-            //OutputStream outputStream2 = new FileOutputStream(canonicalDatabasePath);
-            byte[] buff = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buff)) > 0){
-                outputStream.write(buff, 0, length);
-                //outputStream2.write(buff, 0, length);
-            }
-            Log.v("TAG", "Database written");
-            outputStream.flush();
-            outputStream.close();
-            outputStream2.flush();
-            outputStream2.close();
-            return true;
-} catch (Exception e) {
-        e.printStackTrace();
-        return false;
-        }
-        }
-     */
 
 }

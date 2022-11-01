@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentTop="true"
-    android:focusableInTouchMode="true"
-    tools:context=".students.UpdateMarks">
+    android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="30dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="30dp">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/llUpdateMarks"
+            android:id="@+id/llUpdateAssessmentMarks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -26,7 +20,7 @@
         <com.google.android.material.textfield.TextInputLayout style="@style/myTextInputLayoutStyle">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etUpdateMarksID"
+                android:id="@+id/etUpdateAssessmentMarksID"
                 style="@style/myTextInputEditTextStyle"
                 android:hint="@string/id"
                 android:inputType="number" />
@@ -35,19 +29,18 @@
         <com.google.android.material.textfield.TextInputLayout style="@style/myTextInputLayoutStyle">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etUpdateMarksScore"
+                android:id="@+id/etUpdateAssessmentMarksScore"
                 style="@style/myTextInputEditTextStyle"
                 android:hint="@string/score"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btnUpdateMarksUpdate"
+            android:id="@+id/btnUpdateAssessmentMarksUpdate"
             style="@style/myModifiedButton"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:text="@string/add" />
 
     </LinearLayout>
-
-</ScrollView>
+</RelativeLayout>
