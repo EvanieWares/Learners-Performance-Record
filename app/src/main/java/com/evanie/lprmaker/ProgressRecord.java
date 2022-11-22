@@ -47,7 +47,7 @@ public class ProgressRecord extends DrawerBaseActivity {
         db = new DBHelper(this);
         cursor = db.getRankedData(rankBy);
 
-        for (int a = 0; a < cursor.getColumnCount()-1; a++){
+        for (int a = 0; a < cursor.getColumnCount(); a++){
             TextView textView = new TextView(getApplicationContext());
             String text = " " + cursor.getColumnName(a) + " ";
             textView.setText(text);
@@ -60,7 +60,7 @@ public class ProgressRecord extends DrawerBaseActivity {
         while (cursor.moveToNext()){
             row = new TableRow(getApplicationContext());
             row.setPadding(5,0,5,0);
-            for (int a = 0; a < cursor.getColumnCount()-1; a++){
+            for (int a = 0; a < cursor.getColumnCount(); a++){
                 TextView textView = new TextView(getApplicationContext());
                 String text = " " + cursor.getString(a) + " ";
                 textView.setText(text);
@@ -106,7 +106,7 @@ public class ProgressRecord extends DrawerBaseActivity {
 
                 db = new DBHelper(ProgressRecord.this);
                 cursor = db.getRankedData(rankBy);
-                for (int a = 0; a < cursor.getColumnCount()-1; a++){
+                for (int a = 0; a < cursor.getColumnCount(); a++){
                     TextView textView = new TextView(ProgressRecord.this);
                     String text = " " + cursor.getColumnName(a) + " ";
                     textView.setText(text);
@@ -121,7 +121,7 @@ public class ProgressRecord extends DrawerBaseActivity {
                         if (cursor.getString(1).contains(newText)){
                             row = new TableRow(ProgressRecord.this);
                             row.setPadding(5,0,5,0);
-                            for (int a = 0; a < cursor.getColumnCount()-1; a++){
+                            for (int a = 0; a < cursor.getColumnCount(); a++){
                                 TextView textView = new TextView(ProgressRecord.this);
                                 String text = " " + cursor.getString(a) + " ";
                                 textView.setText(text);

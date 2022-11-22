@@ -130,7 +130,7 @@ public class MainActivity extends DrawerBaseActivity {
 
         //show overall performance text
         textView.setText(R.string.overall_performance);
-        overallLayout.addView(textView);
+        //overallLayout.addView(textView);
 
         //overall performance pie chart
         HorizontalScrollView overallScrollView = new HorizontalScrollView(this);
@@ -138,15 +138,15 @@ public class MainActivity extends DrawerBaseActivity {
         overall.setMinimumWidth(600);
         overall.setMinimumHeight(600);
         populatePieChart(overall, "GRADE", "Overall Performance");
-        overallScrollView.addView(overall);
-        overallLayout.addView(overallScrollView);
+        //overallScrollView.addView(overall);
+        //overallLayout.addView(overallScrollView);
 
         //show performance per subject text
         textView1.setText(R.string.performance_per_subject);
         overallLayout.addView(textView1);
 
         //performance per subject
-        for (int i = 3; i < DB.getData().getColumnCount()-3; i++){
+        for (int i = 3; i < DB.getData().getColumnCount()-1; i++){
             subject = new PieChart(this);
             subject.setMinimumWidth(500);
             subject.setMinimumHeight(500);
@@ -172,11 +172,7 @@ public class MainActivity extends DrawerBaseActivity {
     void fillPieChartData(PieChart pieChart, String column) {
         ArrayList<PieEntry> entries = new ArrayList<>();
         if (DB.allSubjects().size() > 0){
-            if (column.equals("NULL")) {
-                entries.add(new PieEntry(malesCount, "Boys"));
-                entries.add(new PieEntry(femalesCount, "Girls"));
-            }
-            else if (column.equals("GRADE")){
+            if (column.equals("GRADE")){
                 entries.add(new PieEntry(DB.gradingData(4, column), "Grade 4"));
                 entries.add(new PieEntry(DB.gradingData(3, column), "Grade 3"));
                 entries.add(new PieEntry(DB.gradingData(2, column), "Grade 2"));
@@ -251,18 +247,6 @@ public class MainActivity extends DrawerBaseActivity {
                     numberThree.setText(studentList.get(i));
                 }
             }
-            /*
-            ** if (studentList.size() > 2) {
-                numberOne.setText(studentList.get(0));
-                numberTwo.setText(studentList.get(1));
-                numberThree.setText(studentList.get(2));
-            }else if (studentList.size() > 1){
-                numberOne.setText(studentList.get(0));
-                numberTwo.setText(studentList.get(1));
-            }else if (studentList.size() >0){
-                numberOne.setText(studentList.get(0));
-            ** }
-            */
         }
     }
     @Override

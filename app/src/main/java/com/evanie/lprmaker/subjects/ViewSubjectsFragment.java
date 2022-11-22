@@ -27,7 +27,7 @@ public class ViewSubjectsFragment extends Fragment {
         helper = new DBHelper(getActivity());
         Cursor cursor = helper.getData();
 
-        for (int i = 3; i < cursor.getColumnCount()-3; i++){
+        for (int i = 3; i < cursor.getColumnCount()-1; i++){
             TextView textView = new TextView(getActivity());
             textView.setText(cursor.getColumnName(i));
             textView.setTextSize(18);

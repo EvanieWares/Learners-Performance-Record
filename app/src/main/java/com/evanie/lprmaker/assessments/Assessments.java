@@ -60,9 +60,7 @@ public class Assessments extends DrawerBaseActivity {
             updateAssessmentDialog();
         });
 
-        updateExisting.setOnClickListener(v -> {
-            updateAssessmentDialog();
-        });
+        updateExisting.setOnClickListener(v -> updateAssessmentDialog());
 
         arts.setOnClickListener(v -> {
             changeSelectedAssessment(Utils.ARTS_TABLE);

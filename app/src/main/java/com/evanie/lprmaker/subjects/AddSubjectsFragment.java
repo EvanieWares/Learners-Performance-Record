@@ -59,8 +59,6 @@ public class AddSubjectsFragment extends Fragment {
                 }
 
                 helper.addSubjects("TOTAL");
-                helper.addSubjects("GRADE");
-                helper.addSubjects("TOTAL_GRADE");
                 Toast.makeText(getActivity(), "You have added " + subjectList, Toast.LENGTH_SHORT).show();
                 Cursor cursor = helper.getData();
                 while (cursor.moveToNext()){

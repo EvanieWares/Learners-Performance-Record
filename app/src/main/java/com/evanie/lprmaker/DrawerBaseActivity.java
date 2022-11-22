@@ -19,7 +19,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.PreferenceManager;
 
-import com.evanie.lprmaker.assessments.Assessments;
 import com.evanie.lprmaker.others.HelpSupportActivity;
 import com.evanie.lprmaker.others.SettingsActivity;
 import com.evanie.lprmaker.students.StudentsHome;
@@ -85,17 +84,11 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
         final int nav_login = R.id.nav_login;
         final int nav_logout = R.id.nav_logout;
         final int nav_subjects = R.id.nav_subjects;
-        final int nav_continuous_assessment = R.id.nav_continuous_assessment;
         final int nav_help_support = R.id.nav_help_support;
 
         switch (item.getItemId()){
             case nav_students:
                 startActivity(new Intent(this, StudentsHome.class));
-                overridePendingTransition(0,0);
-                break;
-
-            case nav_continuous_assessment:
-                startActivity(new Intent(this, Assessments.class));
                 overridePendingTransition(0,0);
                 break;
 

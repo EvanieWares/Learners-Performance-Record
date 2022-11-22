@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
@@ -28,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //this is called the first time a database is accessed
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE " + STUDENT_MARKS + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT, TOTAL INTEGER, GRADE INTEGER, TOTAL_GRADE INTEGER)";
+        String createTableStatement = "CREATE TABLE " + STUDENT_MARKS + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT, TOTAL INTEGER)";
         String createArtsAssessmentsTable = "CREATE TABLE " + Utils.ARTS_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
         String createChichewaAssessmentsTable = "CREATE TABLE " + Utils.CHICHEWA_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
         String createEnglishAssessmentsTable = "CREATE TABLE " + Utils.ENGLISH_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
@@ -37,12 +38,16 @@ public class DBHelper extends SQLiteOpenHelper {
         String createSocialAssessmentsTable = "CREATE TABLE " + Utils.SOCIAL_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
 
         db.execSQL(createTableStatement);
+        /*
+        *
         db.execSQL(createArtsAssessmentsTable);
         db.execSQL(createChichewaAssessmentsTable);
         db.execSQL(createEnglishAssessmentsTable);
         db.execSQL(createMathsAssessmentsTable);
         db.execSQL(createScienceAssessmentsTable);
         db.execSQL(createSocialAssessmentsTable);
+        *
+        * */
     }
 
     //this is called when a database version number is changed
@@ -61,19 +66,20 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_NAME, name);
         cv.put(COLUMN_SEX, sex);
 
+        /*
+        *
         db.insert(Utils.ARTS_TABLE, null, cv);
         db.insert(Utils.CHICHEWA_TABLE, null, cv);
         db.insert(Utils.ENGLISH_TABLE, null, cv);
         db.insert(Utils.MATHS_TABLE, null, cv);
         db.insert(Utils.SCIENCE_TABLE, null, cv);
         db.insert(Utils.SOCIAL_TABLE, null, cv);
-
-        cv.put("GRADE", 1);
-        cv.put("TOTAL_GRADE", allSubjects().size());
+        *
+         */
 
         Cursor cursor = getData();
-        if (cursor.getColumnCount() > 6) {
-            for (int i = 3; i < cursor.getColumnCount() - 2; i++) {
+        if (cursor.getColumnCount() > 4) {
+            for (int i = 3; i < cursor.getColumnCount(); i++) {
                 cv.put(cursor.getColumnName(i), 0);
             }
         }
@@ -84,7 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<String> allSubjects(){
         ArrayList<String> subjects = new ArrayList<>();
         Cursor cursor = getData();
-        for (int i = 3; i < cursor.getColumnCount()-3; i++){
+        for (int i = 3; i < cursor.getColumnCount()-1; i++){
             subjects.add(cursor.getColumnName(i));
         }
         return subjects;
@@ -109,7 +115,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String queryString = "SELECT * FROM "+ STUDENT_MARKS + " WHERE " + COLUMN_ID + " = " + id;
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery(queryString, null);
         if (cursor.moveToFirst()){
-            for (int i = 3; i < cursor.getColumnCount()-3; i++){
+            for (int i = 3; i < cursor.getColumnCount()-1; i++){
                 arrayList.add(cursor.getInt(i));
             }
         }
@@ -165,19 +171,13 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         int totalMarks = 0;
-        int totalGrades = 0;
-        int grade;
         ArrayList<Integer> scores;
         scores = getStudent(id);
         for (int i = 0; i < scores.size(); i++){
             totalMarks += scores.get(i);
-            totalGrades += getGrade(scores.get(i));
         }
-        grade = Math.round((float) totalGrades / (float) (allSubjects().size()));
 
         cv.put("TOTAL", totalMarks);
-        cv.put("TOTAL_GRADE", totalGrades);
-        cv.put("GRADE", grade);
         db.update(STUDENT_MARKS, cv, COLUMN_ID + " = ? ", new String[]{id});
     }
 
@@ -252,14 +252,16 @@ public class DBHelper extends SQLiteOpenHelper {
         //delete student from the main table
         db.delete(STUDENT_MARKS, COLUMN_ID + " = ? ", new String[]{ id });
 
-        //remove student from assessment table
+        /*
+        remove student from assessment table
         db.delete(Utils.ARTS_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
         db.delete(Utils.CHICHEWA_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
         db.delete(Utils.ENGLISH_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
         db.delete(Utils.MATHS_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
         db.delete(Utils.SCIENCE_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
         db.delete(Utils.SOCIAL_TABLE, COLUMN_ID + " = ? ", new String[]{ id });
-
+        *
+        */
         Log.d("TAG", "Removed student with the ID: " + id + " from the MAIN table");
         db.close();
     }
@@ -304,7 +306,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addSubjects(String subject){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = getData();
-        if (cursor.getColumnName(cursor.getColumnCount()-1).equals("TOTAL_GRADE")) {
+        if (cursor.getColumnName(cursor.getColumnCount()-1).equals("TOTAL")) {
             alterTable();
         }
 
@@ -347,11 +349,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO STUDENT_MARKS (" + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + ") SELECT " + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + " FROM _STUDENT_MARKS_old");
 
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("Select * from _STUDENT_MARKS_old", null);
-        for (int i = 3; i < cursor.getColumnCount()-3; i++){
+        for (int i = 3; i < cursor.getColumnCount()-1; i++){
             db.execSQL("ALTER TABLE STUDENT_MARKS ADD " + cursor.getColumnName(i) + " INTEGER");
         }
         while (cursor.moveToNext()){
-            for (int i = 3; i < cursor.getColumnCount()-3; i++){
+            for (int i = 3; i < cursor.getColumnCount()-1; i++){
                 String id = cursor.getString(0);
                 ContentValues cv = new ContentValues();
                 cv.put(cursor.getColumnName(i), cursor.getString(i));
@@ -371,7 +373,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO STUDENT_MARKS (" + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + ") SELECT " + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + " FROM _STUDENT_MARKS_old");
 
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("Select * from _STUDENT_MARKS_old", null);
-        for (int i = 3; i < cursor.getColumnCount()-3; i++){
+        for (int i = 3; i < cursor.getColumnCount()-1; i++){
             if (!cursor.getColumnName(i).equals(subject)) {
                 db.execSQL("ALTER TABLE STUDENT_MARKS ADD " + cursor.getColumnName(i) + " INTEGER");
                 Log.d("TAG", cursor.getColumnName(i));
@@ -379,7 +381,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         if (cursor.moveToFirst()){
             do {
-                for (int i = 3; i < cursor.getColumnCount()-3; i++){
+                for (int i = 3; i < cursor.getColumnCount()-1; i++){
                     if (!cursor.getColumnName(i).equals(subject)){
                         String id = cursor.getString(0);
                         ContentValues cv = new ContentValues();
@@ -461,7 +463,7 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL(createTableStatement);
             db.execSQL("INSERT INTO STUDENT_MARKS (" + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + ") SELECT " + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_SEX + " FROM SUB.STUDENT_MARKS");
 
-            @SuppressLint("Recycle") Cursor cursor = db.rawQuery("Select * from SUB.STUDENT_MARKS", null);
+            Cursor cursor = db.rawQuery("Select * from SUB.STUDENT_MARKS", null);
             for (int i = 3; i < cursor.getColumnCount(); i++){
                 db.execSQL("ALTER TABLE STUDENT_MARKS ADD " + cursor.getColumnName(i) + " INTEGER");
                 Log.d("TAG", cursor.getColumnName(i));
@@ -476,6 +478,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     }
                 }while (cursor.moveToNext());
             }
+            cursor.close();
             db.execSQL("INSERT OR REPLACE INTO STUDENT_MARKS SELECT * FROM SUB.STUDENT_MARKS");
             Log.v("TAG", "Database copied");
             db.execSQL("DETACH DATABASE SUB");
@@ -484,6 +487,66 @@ public class DBHelper extends SQLiteOpenHelper {
         } catch (Exception e){
             db.execSQL("ALTER TABLE _STUDENT_MARKS_old RENAME TO STUDENT_MARKS");
             Log.v("TAG", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean attachDatabase(){
+        SQLiteDatabase db = getReadableDatabase();
+        try {
+            db.execSQL("ATTACH DATABASE '"+ExportActivity.filesPath+"/learners.db"+"' AS SUB");
+            Log.v("TAG", "Database attached");
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void detachDatabase(){
+        SQLiteDatabase db = getReadableDatabase();
+        db.execSQL("DETACH DATABASE SUB");
+        Log.v("TAG", "Database detached");
+    }
+
+    //get data to sync
+    public ArrayList<String> getDataToSync(){
+        ArrayList<String> listOfSubjectsToSync = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        try {
+            db.execSQL("ATTACH DATABASE '"+ExportActivity.filesPath+"/learners.db"+"' AS SUB");
+            Log.v("TAG", "Database attached");
+            Cursor cursor = db.rawQuery("Select * from SUB.STUDENT_MARKS", null);
+            for (int i = 3; i < cursor.getColumnCount()-1; i++){
+                listOfSubjectsToSync.add(cursor.getColumnName(i));
+            }
+            cursor.close();
+            db.execSQL("DETACH DATABASE SUB");
+            Log.v("TAG", "Database detached");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfSubjectsToSync;
+    }
+
+    public boolean syncData(String subject){
+        SQLiteDatabase db = getWritableDatabase();
+        boolean success = false;
+        try {
+            db.execSQL("ATTACH DATABASE '"+ExportActivity.filesPath+"/learners.db"+"' AS SUB");
+            Log.v("TAG", "Database attached");
+            Cursor cursor = db.rawQuery("Select ID,"+subject+" from SUB.STUDENT_MARKS", null);
+            if (cursor.moveToFirst()){
+                do {
+                    success = updateStudentMarks(cursor.getString(0), cursor.getInt(1), subject);
+                    refresh(cursor.getString(0));
+                }while (cursor.moveToNext());
+            }
+            cursor.close();
+            detachDatabase();
+            return success;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }

@@ -55,7 +55,7 @@ public class UpdateMarks extends DrawerBaseActivity {
 
         Cursor cursor = helper.getData();
 
-        for (int i = 3; i < cursor.getColumnCount()-3; i++){
+        for (int i = 3; i < cursor.getColumnCount()-1; i++){
             subjectsList.add(cursor.getColumnName(i));
         }
 

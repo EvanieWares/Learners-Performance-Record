@@ -19,10 +19,6 @@
             android:icon="@drawable/ic_subjects"
             android:title="@string/subjects" />
         <item
-            android:id="@+id/nav_continuous_assessment"
-            android:icon="@drawable/ic_continuous_assessment"
-            android:title="@string/continuous_assessment" />
-        <item
             android:id="@+id/nav_update_marks"
             android:icon="@drawable/ic_update"
             android:title="@string/update_marks" />

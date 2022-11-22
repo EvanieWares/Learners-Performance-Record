@@ -36,7 +36,7 @@ public class RemoveSubjectsFragment extends Fragment {
         ArrayList<String> checkedSubjects = new ArrayList<>();
         helper = new DBHelper(getActivity());
 
-        for (int i = 3; i < helper.getData().getColumnCount()-3; i++){
+        for (int i = 3; i < helper.getData().getColumnCount()-1; i++){
             list.add(helper.getData().getColumnName(i));
         }
 
@@ -63,8 +63,6 @@ public class RemoveSubjectsFragment extends Fragment {
                     Log.e("TAG", checkedSubjects.get(i));
                     helper.removeSubjects(checkedSubjects.get(i));
                     helper.addSubjects("TOTAL");
-                    helper.addSubjects("GRADE");
-                    helper.addSubjects("TOTAL_GRADE");
                 }
                 Toast.makeText(getActivity(), "You have successfully removed " + checkedSubjects, Toast.LENGTH_SHORT).show();
                 Cursor cursor = helper.getData();

@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:visibility="invisible"
         android:text="@string/upload_to_cloud" />
 
     <Button
@@ -25,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:visibility="invisible"
         android:text="@string/retrieve_from_cloud" />
 
 </LinearLayout>

@@ -112,7 +112,7 @@ public class ExportActivity extends AppCompatActivity {
         cloudFilePath = storage.child("databases").child(cloudFileName+".db");
         progressDialog.setMessage("Uploading data...");
         progressDialog.show();
-        String databasePath = databaseDirectory+databaseName;
+        String databasePath = databaseDirectory+"/"+databaseName;
         Uri uri = Uri.fromFile(new File(databasePath));
         cloudFilePath.putFile(uri).addOnSuccessListener(taskSnapshot -> {
             progressDialog.dismiss();
@@ -162,7 +162,15 @@ public class ExportActivity extends AppCompatActivity {
                     inputStream.close();
 
                     handler.post(() -> {
-                        if (helper.copyDatabase()){
+                        if (helper.attachDatabase()){
+                            syncDataDialog();
+                            if (file.delete()){
+                                Log.i("TAG", "Downloaded file was deleted");
+                            }
+                        } else {
+                            Toast.makeText(ExportActivity.this, "Unable to sync data", Toast.LENGTH_SHORT).show();
+                        }
+                        /*if (helper.copyDatabase()){
                             Toast.makeText(ExportActivity.this, "Data is updated", Toast.LENGTH_SHORT)
                                     .show();
                             if (file.delete()){
@@ -171,7 +179,7 @@ public class ExportActivity extends AppCompatActivity {
                         }else {
                             Toast.makeText(ExportActivity.this, "Update failed", Toast.LENGTH_SHORT)
                                     .show();
-                        }
+                        }*/
                         progressDialog.dismiss();
                     });
                 }catch (Exception e){
@@ -193,6 +201,11 @@ public class ExportActivity extends AppCompatActivity {
             Log.e("TAG", "Download link created: "+url);
             downloadFile(url);
         }).addOnFailureListener(e -> Toast.makeText(ExportActivity.this, "Sync failed", Toast.LENGTH_SHORT).show());
+    }
+
+    private void syncDataDialog(){
+        SyncDataDialog syncDataDialog = new SyncDataDialog();
+        syncDataDialog.show(getSupportFragmentManager(), "Sync data");
     }
 
     @Override
