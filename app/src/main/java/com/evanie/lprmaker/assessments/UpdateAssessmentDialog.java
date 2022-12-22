@@ -1,7 +1,6 @@
 package com.evanie.lprmaker.assessments;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -47,12 +46,7 @@ public class UpdateAssessmentDialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.update_assessments_dialog, null);
         builder.setView(view)
                 .setTitle("Update "+Assessments.getSelectedAssessment()+" Assessment")
-                .setNegativeButton("Finish", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setNegativeButton("Finish", (dialog, which) -> dialog.dismiss());
         builder.setCancelable(false);
 
         update = view.findViewById(R.id.btnUpdateAssessmentMarksUpdate);

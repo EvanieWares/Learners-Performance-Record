@@ -1,5 +1,12 @@
 package com.evanie.lprmaker.assessments;
 
+import static com.evanie.lprmaker.Utils.ARTS_TABLE;
+import static com.evanie.lprmaker.Utils.CHICHEWA_TABLE;
+import static com.evanie.lprmaker.Utils.ENGLISH_TABLE;
+import static com.evanie.lprmaker.Utils.MATHS_TABLE;
+import static com.evanie.lprmaker.Utils.SCIENCE_TABLE;
+import static com.evanie.lprmaker.Utils.SOCIAL_TABLE;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -17,7 +24,6 @@ import com.evanie.lprmaker.DBHelper;
 import com.evanie.lprmaker.DrawerBaseActivity;
 import com.evanie.lprmaker.MainActivity;
 import com.evanie.lprmaker.R;
-import com.evanie.lprmaker.Utils;
 import com.evanie.lprmaker.databinding.ActivityAssessmentsHomeBinding;
 
 public class Assessments extends DrawerBaseActivity {
@@ -51,8 +57,8 @@ public class Assessments extends DrawerBaseActivity {
         updateExisting = findViewById(R.id.updateExistingAssessment);
 
         arts.setBackgroundColor(Color.parseColor("#3490dc"));
-        changeSelectedAssessment(Utils.ARTS_TABLE);
-        viewAssessment(Utils.ARTS_TABLE);
+        changeSelectedAssessment(ARTS_TABLE);
+        viewAssessment(ARTS_TABLE);
         //Toast.makeText(this, getResources().getString(R.string.chichewa), Toast.LENGTH_SHORT).show();
 
         addNew.setOnClickListener(v -> {
@@ -63,8 +69,8 @@ public class Assessments extends DrawerBaseActivity {
         updateExisting.setOnClickListener(v -> updateAssessmentDialog());
 
         arts.setOnClickListener(v -> {
-            changeSelectedAssessment(Utils.ARTS_TABLE);
-            Log.i("TAG", "Viewing "+Utils.ARTS_TABLE);
+            changeSelectedAssessment(ARTS_TABLE);
+            Log.i("TAG", "Viewing "+ARTS_TABLE);
             arts.setBackgroundColor(Color.parseColor("#3490dc"));
             chichewa.setBackgroundColor(Color.parseColor("#ffffff"));
             english.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -72,12 +78,12 @@ public class Assessments extends DrawerBaseActivity {
             science.setBackgroundColor(Color.parseColor("#ffffff"));
             social.setBackgroundColor(Color.parseColor("#ffffff"));
             table.removeAllViews();
-            viewAssessment(Utils.ARTS_TABLE);
+            viewAssessment(ARTS_TABLE);
         });
 
         chichewa.setOnClickListener(v -> {
-            changeSelectedAssessment(Utils.CHICHEWA_TABLE);
-            Log.i("TAG", "Viewing "+Utils.CHICHEWA_TABLE);
+            changeSelectedAssessment(CHICHEWA_TABLE);
+            Log.i("TAG", "Viewing "+CHICHEWA_TABLE);
             chichewa.setBackgroundColor(Color.parseColor("#3490dc"));
             arts.setBackgroundColor(Color.parseColor("#ffffff"));
             english.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -85,12 +91,12 @@ public class Assessments extends DrawerBaseActivity {
             science.setBackgroundColor(Color.parseColor("#ffffff"));
             social.setBackgroundColor(Color.parseColor("#ffffff"));
             table.removeAllViews();
-            viewAssessment(Utils.CHICHEWA_TABLE);
+            viewAssessment(CHICHEWA_TABLE);
         });
 
         english.setOnClickListener(v -> {
-            changeSelectedAssessment(Utils.ENGLISH_TABLE);
-            Log.i("TAG", "Viewing "+Utils.ENGLISH_TABLE);
+            changeSelectedAssessment(ENGLISH_TABLE);
+            Log.i("TAG", "Viewing "+ENGLISH_TABLE);
             english.setBackgroundColor(Color.parseColor("#3490dc"));
             chichewa.setBackgroundColor(Color.parseColor("#ffffff"));
             arts.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -98,12 +104,12 @@ public class Assessments extends DrawerBaseActivity {
             science.setBackgroundColor(Color.parseColor("#ffffff"));
             social.setBackgroundColor(Color.parseColor("#ffffff"));
             table.removeAllViews();
-            viewAssessment(Utils.ENGLISH_TABLE);
+            viewAssessment(ENGLISH_TABLE);
         });
 
         maths.setOnClickListener(v -> {
-            changeSelectedAssessment(Utils.MATHS_TABLE);
-            Log.i("TAG", "Viewing "+Utils.MATHS_TABLE);
+            changeSelectedAssessment(MATHS_TABLE);
+            Log.i("TAG", "Viewing "+MATHS_TABLE);
             maths.setBackgroundColor(Color.parseColor("#3490dc"));
             chichewa.setBackgroundColor(Color.parseColor("#ffffff"));
             english.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -111,12 +117,12 @@ public class Assessments extends DrawerBaseActivity {
             science.setBackgroundColor(Color.parseColor("#ffffff"));
             social.setBackgroundColor(Color.parseColor("#ffffff"));
             table.removeAllViews();
-            viewAssessment(Utils.MATHS_TABLE);
+            viewAssessment(MATHS_TABLE);
         });
 
         science.setOnClickListener(v -> {
-            changeSelectedAssessment(Utils.SCIENCE_TABLE);
-            Log.i("TAG", "Viewing "+Utils.SCIENCE_TABLE);
+            changeSelectedAssessment(SCIENCE_TABLE);
+            Log.i("TAG", "Viewing "+SCIENCE_TABLE);
             science.setBackgroundColor(Color.parseColor("#3490dc"));
             chichewa.setBackgroundColor(Color.parseColor("#ffffff"));
             english.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -124,12 +130,12 @@ public class Assessments extends DrawerBaseActivity {
             arts.setBackgroundColor(Color.parseColor("#ffffff"));
             social.setBackgroundColor(Color.parseColor("#ffffff"));
             table.removeAllViews();
-            viewAssessment(Utils.SCIENCE_TABLE);
+            viewAssessment(SCIENCE_TABLE);
         });
 
         social.setOnClickListener(v -> {
-            changeSelectedAssessment(Utils.SOCIAL_TABLE);
-            Log.i("TAG", "Viewing "+Utils.SOCIAL_TABLE);
+            changeSelectedAssessment(SOCIAL_TABLE);
+            Log.i("TAG", "Viewing "+SOCIAL_TABLE);
             social.setBackgroundColor(Color.parseColor("#3490dc"));
             chichewa.setBackgroundColor(Color.parseColor("#ffffff"));
             english.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -137,7 +143,7 @@ public class Assessments extends DrawerBaseActivity {
             science.setBackgroundColor(Color.parseColor("#ffffff"));
             arts.setBackgroundColor(Color.parseColor("#ffffff"));
             table.removeAllViews();
-            viewAssessment(Utils.SOCIAL_TABLE);
+            viewAssessment(SOCIAL_TABLE);
         });
     }
 

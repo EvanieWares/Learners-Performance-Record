@@ -7,7 +7,7 @@
 
     <string-array name="ranking_values">
         <item>marks</item>
-        <item>grades</item>
+        <item>marks</item>
     </string-array>
 
     <!-- Pie Chart Preference -->

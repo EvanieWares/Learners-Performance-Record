@@ -23,6 +23,14 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tvStudentNameToUpdateMarksFor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textColor="@color/blue"
+            android:gravity="center"/>
+
         <com.google.android.material.textfield.TextInputLayout style="@style/myTextInputLayoutStyle">
 
             <com.google.android.material.textfield.TextInputEditText

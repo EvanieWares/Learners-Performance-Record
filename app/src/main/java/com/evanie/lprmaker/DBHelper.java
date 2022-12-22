@@ -1,5 +1,7 @@
 package com.evanie.lprmaker;
 
+import static com.evanie.lprmaker.Utils.*;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,26 +18,20 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    //table values for student marks
-    public static final String STUDENT_MARKS = "STUDENT_MARKS";
-    public static final String COLUMN_ID = "ID";
-    public static final String COLUMN_NAME = "NAME";
-    public static final String COLUMN_SEX = "SEX";
-
     public DBHelper(Context context) {
-        super(context, Utils.databaseName, null, 1);
+        super(context, databaseName, null, 1);
     }
 
     //this is called the first time a database is accessed
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE " + STUDENT_MARKS + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT, TOTAL INTEGER)";
-        String createArtsAssessmentsTable = "CREATE TABLE " + Utils.ARTS_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
-        String createChichewaAssessmentsTable = "CREATE TABLE " + Utils.CHICHEWA_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
-        String createEnglishAssessmentsTable = "CREATE TABLE " + Utils.ENGLISH_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
-        String createMathsAssessmentsTable = "CREATE TABLE " + Utils.MATHS_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
-        String createScienceAssessmentsTable = "CREATE TABLE " + Utils.SCIENCE_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
-        String createSocialAssessmentsTable = "CREATE TABLE " + Utils.SOCIAL_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createTableStatement = "CREATE TABLE " + STUDENT_MARKS + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT, " + COLUMN_ARTS + " INTEGER, " + COLUMN_CHICHEWA + " INTEGER, " + COLUMN_ENGLISH + " INTEGER, " + COLUMN_MATHS + " INTEGER, " + COLUMN_SCIENCE + " INTEGER, " + COLUMN_SOCIAL + " INTEGER, " + COLUMN_TOTAL + " INTEGER)";
+        String createArtsAssessmentsTable = "CREATE TABLE " + ARTS_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createChichewaAssessmentsTable = "CREATE TABLE " + CHICHEWA_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createEnglishAssessmentsTable = "CREATE TABLE " + ENGLISH_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createMathsAssessmentsTable = "CREATE TABLE " + MATHS_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createScienceAssessmentsTable = "CREATE TABLE " + SCIENCE_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
+        String createSocialAssessmentsTable = "CREATE TABLE " + SOCIAL_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_SEX + " TEXT)";
 
         db.execSQL(createTableStatement);
         /*
@@ -156,14 +152,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor getRankedData(String rankBy){
+    public Cursor getRankedData(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor;
-        if (rankBy.equals("grades")){
-            cursor = db.rawQuery("Select * from STUDENT_MARKS order by TOTAL_GRADE desc, TOTAL desc", null);
-        }else {
-            cursor = db.rawQuery("Select * from STUDENT_MARKS order by TOTAL desc", null);
-        }
+        cursor = db.rawQuery("Select * from STUDENT_MARKS order by TOTAL desc", null);
         return cursor;
     }
 
@@ -397,15 +389,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //export learners' data to in CSV
-    public void exportDB(String rankBy){
-        String root = Environment.getExternalStorageDirectory().toString();
-        File exportDir = new File(root + "/LPR");
-        if (!exportDir.exists()){
-            if (exportDir.mkdirs()){
-                Log.i("TAG", "Export directory was created");
-            }
-        }
-        File file = new File(exportDir, "Performance Record.csv");
+    public boolean exportDB(){
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "Performance Record.csv");
         try {
             if (file.createNewFile()){
                 Log.i("TAG", "Performance Record.csv file created successfully");
@@ -414,12 +399,12 @@ public class DBHelper extends SQLiteOpenHelper {
             String s = "";
             String total;
             int pos = 0;
-            Cursor cursor = getRankedData(rankBy);
+            Cursor cursor = getRankedData();
 
             //get column names
-            String[] columnNames = new String[cursor.getColumnCount()-1];
+            String[] columnNames = new String[cursor.getColumnCount()];
             columnNames[0] = "POS";
-            for (int i = 1; i < cursor.getColumnCount()-1; i++){
+            for (int i = 1; i < cursor.getColumnCount(); i++){
                 columnNames[i] = cursor.getColumnName(i);
             }
 
@@ -446,9 +431,11 @@ public class DBHelper extends SQLiteOpenHelper {
             }
             csvWriter.close();
             cursor.close();
+            return true;
         }
         catch (Exception sqlEx){
             Log.e("MainActivity", sqlEx.getMessage(), sqlEx);
+            return false;
         }
     }
 
@@ -491,24 +478,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean attachDatabase(){
-        SQLiteDatabase db = getReadableDatabase();
-        try {
-            db.execSQL("ATTACH DATABASE '"+ExportActivity.filesPath+"/learners.db"+"' AS SUB");
-            Log.v("TAG", "Database attached");
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public void detachDatabase(){
-        SQLiteDatabase db = getReadableDatabase();
-        db.execSQL("DETACH DATABASE SUB");
-        Log.v("TAG", "Database detached");
-    }
-
     //get data to sync
     public ArrayList<String> getDataToSync(){
         ArrayList<String> listOfSubjectsToSync = new ArrayList<>();
@@ -543,7 +512,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 }while (cursor.moveToNext());
             }
             cursor.close();
-            detachDatabase();
+            db.execSQL("DETACH DATABASE SUB");
+            Log.v("TAG", "Database detached");
             return success;
         } catch (SQLException e) {
             e.printStackTrace();

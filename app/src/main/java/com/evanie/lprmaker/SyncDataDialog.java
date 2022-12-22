@@ -34,7 +34,7 @@ public class SyncDataDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.sync_data_dialog, null);
         builder.setView(view)
-                .setTitle("Select subjects to update")
+                .setTitle("Select subjects to sync")
                 .setNegativeButton("Finish", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -77,7 +77,7 @@ public class SyncDataDialog extends AppCompatDialogFragment {
                     }
                 }
             } else {
-                Toast.makeText(getActivity(), "Please select a subject to update", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please select a subject to sync", Toast.LENGTH_SHORT).show();
             }
         });
 

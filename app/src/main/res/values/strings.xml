@@ -27,9 +27,10 @@
     <string name="best_female">The best performing female learner:</string>
     <string name="performance_per_subject">PERFORMANCE PER SUBJECT</string>
     <string name="overall_performance">OVERALL PERFORMANCE</string>
-    <string name="export">Export to device</string>
-    <string name="upload_to_cloud">Upload to cloud</string>
-    <string name="retrieve_from_cloud">Retrieve from cloud</string>
+    <string name="export">Export to excel</string>
+    <string name="save_online">Save online</string>
+    <string name="sync_data">Sync all data</string>
+    <string name="sync_subjects">Sync subjects</string>
     <string name="help_support">Help &amp; Support</string>
     <string name="about">About</string>
     <string name="help">Help</string>

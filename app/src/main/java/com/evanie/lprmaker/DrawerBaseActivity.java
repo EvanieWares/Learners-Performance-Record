@@ -34,7 +34,6 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
     SharedPreferences preferences;
     final String keyAppMode = "appMode";
     final String valueOffline = "offline";
-    final String valueLoggedIn = "loggedIn";
     public final String keyLatestVersionCode = "latestVersionCode";
     public final String keyCurrentVersionCode = "currentVersionCode";
     public final String keyLatestVersionName = "latestVersionName";

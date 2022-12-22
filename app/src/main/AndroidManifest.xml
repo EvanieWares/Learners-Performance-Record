@@ -17,6 +17,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LPRMaker">
         <activity
+            android:name=".progress.Record"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".progress.PerformanceActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ForgotPassword"
             android:exported="false" />
         <activity
@@ -71,7 +85,7 @@
         <activity
             android:name=".ExportActivity"
             android:configChanges="orientation|screenSize"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".DrawerBaseActivity"
             android:configChanges="orientation|screenSize"

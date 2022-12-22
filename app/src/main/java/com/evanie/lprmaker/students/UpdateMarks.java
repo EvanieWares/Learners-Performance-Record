@@ -4,11 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.evanie.lprmaker.DBHelper;
@@ -35,6 +39,7 @@ public class UpdateMarks extends DrawerBaseActivity {
     TextInputEditText etID;
     TextInputEditText etScore;
     DBHelper helper;
+    TextView studentName;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -52,6 +57,7 @@ public class UpdateMarks extends DrawerBaseActivity {
         update = findViewById(R.id.btnUpdateMarksUpdate);
         etID = findViewById(R.id.etUpdateMarksID);
         etScore = findViewById(R.id.etUpdateMarksScore);
+        studentName = findViewById(R.id.tvStudentNameToUpdateMarksFor);
 
         Cursor cursor = helper.getData();
 
@@ -93,6 +99,42 @@ public class UpdateMarks extends DrawerBaseActivity {
                 }else {
                     Toast.makeText(UpdateMarks.this, "Unable to update. Please try again", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        etID.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    etID.setText("");
+                }
+            }
+        });
+
+        etID.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0){
+                    String id = Objects.requireNonNull(etID.getText()).toString();
+                    String name = helper.getStudentName(id);
+                    if (!name.isEmpty()){
+                        studentName.setText(name);
+                    } else {
+                        studentName.setText("");
+                    }
+                }else {
+                    studentName.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

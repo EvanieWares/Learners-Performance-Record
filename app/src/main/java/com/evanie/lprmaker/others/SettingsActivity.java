@@ -68,6 +68,8 @@ public class SettingsActivity extends AppCompatActivity {
                     .commit();
         }
 
+        Toast.makeText(this, "Ranking by grades is temporarily disabled", Toast.LENGTH_SHORT).show();
+
         clearData.setOnClickListener(v -> clearDataAlert());
         clearMarks.setOnClickListener(v -> clearMarksAlert());
         aboutApp.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, AboutAppActivity.class)));

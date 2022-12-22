@@ -1,133 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginBottom="3dp">
 
     <LinearLayout
-        android:id="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border3"
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/rvID"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
             android:gravity="start"
             android:text="ID"
-            android:padding="5dp"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/rvUserName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:padding="5dp"
             android:gravity="left"
             android:text="STUDENT NAME"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/rvSex"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="5dp"
             android:gravity="center"
             android:text="SEX"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/rvArts"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="5dp"
             android:gravity="center"
             android:text="ART"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/rvChichewa"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="5dp"
             android:gravity="center"
             android:text="CHI"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/rvEnglish"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="5dp"
             android:gravity="center"
             android:text="ENG"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/rvMaths"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:text="MAT"
-            android:padding="5dp"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/rvScience"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="5dp"
             android:gravity="center"
             android:text="P/S"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/rvSocial"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="SES"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/rvTotal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.8"
-            android:padding="5dp"
             android:gravity="center"
             android:text="TOTAL"
             android:textStyle="bold"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRecord"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/ll1"/>
 
 </RelativeLayout>

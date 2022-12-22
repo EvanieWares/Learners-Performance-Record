@@ -1,32 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".ExportActivity">
 
-    <Button
-        android:id="@+id/btnExport"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/export" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="20dp">
 
-    <Button
-        android:id="@+id/btnUploadToCloud"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:visibility="invisible"
-        android:text="@string/upload_to_cloud" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:contentDescription="@string/save_online"
+            android:src="@drawable/export_to_excel" />
 
-    <Button
-        android:id="@+id/btnRetrieveFromCloud"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:visibility="invisible"
-        android:text="@string/retrieve_from_cloud" />
+        <Button
+            android:id="@+id/btnExport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="@string/export" />
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:contentDescription="@string/save_online"
+            android:src="@drawable/upload_to_cloud" />
+
+        <Button
+            android:id="@+id/btnUploadToCloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="@string/save_online" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:contentDescription="@string/sync_data"
+            android:src="@drawable/sync" />
+
+        <Button
+            android:id="@+id/btnRetrieveFromCloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="@string/sync_subjects" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:contentDescription="@string/sync_data"
+            android:src="@drawable/data" />
+
+        <Button
+            android:id="@+id/btnRetrieveDatabase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sync_data" />
+
+    </LinearLayout>
+
+</ScrollView>

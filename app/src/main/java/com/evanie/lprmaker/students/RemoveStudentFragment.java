@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -35,7 +34,7 @@ public class RemoveStudentFragment extends Fragment {
         helper = new DBHelper(getActivity());
 
         CheckBox studentIDs;
-        TextView studentNames;
+        //TextView studentNames;
         remove = inflate.findViewById(R.id.btnRemoveStudent);
         layout = inflate.findViewById(R.id.studentListLinearLayout);
         ArrayList<String> allStudents = new ArrayList<>();
@@ -60,8 +59,8 @@ public class RemoveStudentFragment extends Fragment {
             studentIDs.setText(checkboxText);
             studentIDs.setTag(i);
 
-            studentNames = new TextView(getActivity());
-            studentNames.setText(student);
+            //studentNames = new TextView(getActivity());
+            //studentNames.setText(student);
 
             studentIDs.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked){
@@ -76,13 +75,15 @@ public class RemoveStudentFragment extends Fragment {
         }
 
         remove.setOnClickListener(view -> {
-            if (allIDs.size() > 0) {
+            if (checkedIDs.size() > 0) {
                 checkedStudents.clear();
                 for (int i = 0; i < checkedIDs.size(); i++) {
                     String name = helper.getStudentName(checkedIDs.get(i));
                     checkedStudents.add(name);
                 }
                 alert(checkedStudents, checkedIDs);
+            }else {
+                Toast.makeText(getActivity(), "Please select student(s) to remove", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -90,24 +91,20 @@ public class RemoveStudentFragment extends Fragment {
     }
 
     private void removeStudents(List<String> studentList, ArrayList<String> idList){
-        if (!idList.isEmpty()){
-            for (int i = 0; i < idList.size(); i++){
-                Log.e("TAG", studentList.get(i));
-                helper.removeStudent(idList.get(i));
-            }
-            Toast.makeText(getActivity(), "You have successfully removed " + studentList, Toast.LENGTH_SHORT).show();
-            Cursor cursor = helper.getData();
-            while (cursor.moveToNext()){
-                String id = cursor.getString(0);
-                helper.refresh(id);
-            }
-            RemoveStudentFragment removeStudentFragment = new RemoveStudentFragment();
-            requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.studentDetailsContainer, removeStudentFragment)
-                    .addToBackStack(null).commit();
-        }else {
-            Toast.makeText(getActivity(), "Please select a subject", Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < idList.size(); i++){
+            Log.e("TAG", studentList.get(i));
+            helper.removeStudent(idList.get(i));
         }
+        Toast.makeText(getActivity(), "You have successfully removed " + studentList, Toast.LENGTH_SHORT).show();
+        Cursor cursor = helper.getData();
+        while (cursor.moveToNext()){
+            String id = cursor.getString(0);
+            helper.refresh(id);
+        }
+        RemoveStudentFragment removeStudentFragment = new RemoveStudentFragment();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.studentDetailsContainer, removeStudentFragment)
+                .addToBackStack(null).commit();
     }
 
     public void alert(List<String> studentList, ArrayList<String> idList){

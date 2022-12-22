@@ -69,6 +69,10 @@ public class MainActivity extends DrawerBaseActivity {
         retrieveGeneratedToken();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.edit().putInt(keyCurrentVersionCode, currentVersionCode).apply();
+        /*if (preferences.getLong(keyCurrentVersionCode, 0) < currentVersionCode) {
+
+        }*/
+
         rankBy = preferences.getString("ranking", "");
         show = preferences.getString("pieChart", "");
 
@@ -217,7 +221,7 @@ public class MainActivity extends DrawerBaseActivity {
 
     // get the summary of the student's performance
     private void summary(){
-        Cursor cursor = DB.getRankedData(rankBy);
+        Cursor cursor = DB.getRankedData();
         if (cursor.moveToFirst()){
             do {
                 // get the total number of boys and girls
@@ -319,5 +323,9 @@ public class MainActivity extends DrawerBaseActivity {
                     // Log and toast
                     Log.d("TAG", "The token is: "+token);
                 });
+    }
+
+    private void whatsNew(){
+
     }
 }

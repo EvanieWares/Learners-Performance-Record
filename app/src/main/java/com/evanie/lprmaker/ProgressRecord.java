@@ -3,75 +3,60 @@ package com.evanie.lprmaker;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.evanie.lprmaker.databinding.ActivityProgressRecordBinding;
+import com.evanie.lprmaker.progress.Details;
+import com.evanie.lprmaker.progress.RecordAdapter;
+
+import java.util.ArrayList;
 
 public class ProgressRecord extends DrawerBaseActivity {
 
     ActivityProgressRecordBinding activityProgressRecordBinding;
     SharedPreferences sp;
     String rankBy;
-    DBHelper db;
-    Cursor cursor;
-
-    TableLayout table;
-    TableRow title, row;
+    RecyclerView recyclerView;
+    RecordAdapter myAdapter;
+    DBHelper dbHelper;
+    ArrayList<Details> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityProgressRecordBinding = ActivityProgressRecordBinding.inflate(getLayoutInflater());
         setContentView(activityProgressRecordBinding.getRoot());
-        allocateActivityTitle("All Students Data");
+        allocateActivityTitle("Progress record");
 
         rankBy = "";
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         rankBy = sp.getString("ranking", "");
 
-        table = findViewById(R.id.tableMain);
-        title = new TableRow(this);
-        title.setPadding(5,15,5,15);
-        title.setBackgroundColor(Color.parseColor("#3490dc"));
+        recyclerView = findViewById(R.id.rvRecord);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        db = new DBHelper(this);
-        cursor = db.getRankedData(rankBy);
+        list = new ArrayList<>();
 
-        for (int a = 0; a < cursor.getColumnCount(); a++){
-            TextView textView = new TextView(getApplicationContext());
-            String text = " " + cursor.getColumnName(a) + " ";
-            textView.setText(text);
-            textView.setTextSize(14);
-            textView.setTextColor(Color.BLACK);
-            title.addView(textView);
+        dbHelper = new DBHelper(this);
+        Cursor cursor = dbHelper.getRankedData();
+        if (cursor.moveToFirst()){
+            do {
+                Details student = new Details(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
+                list.add(student);
+            }while (cursor.moveToNext());
         }
-        table.addView(title);
-
-        while (cursor.moveToNext()){
-            row = new TableRow(getApplicationContext());
-            row.setPadding(5,0,5,0);
-            for (int a = 0; a < cursor.getColumnCount(); a++){
-                TextView textView = new TextView(getApplicationContext());
-                String text = " " + cursor.getString(a) + " ";
-                textView.setText(text);
-                textView.setTextSize(12);
-                if (!cursor.getColumnName(a).equals("NAME")) {
-                    textView.setGravity(Gravity.CENTER);
-                }
-                row.addView(textView);
-            }
-            table.addView(row);
-        }
+        Log.e("TAG", "The number of students is "+list.size());
+        myAdapter = new RecordAdapter(this, list);
+        recyclerView.setAdapter(myAdapter);
 
     }
 
@@ -98,42 +83,17 @@ public class ProgressRecord extends DrawerBaseActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 newText = newText.toUpperCase();
-                table.removeAllViews();
-
-                title = new TableRow(ProgressRecord.this);
-                title.setPadding(5,15,5,15);
-                title.setBackgroundColor(Color.parseColor("#3490dc"));
-
-                db = new DBHelper(ProgressRecord.this);
-                cursor = db.getRankedData(rankBy);
-                for (int a = 0; a < cursor.getColumnCount(); a++){
-                    TextView textView = new TextView(ProgressRecord.this);
-                    String text = " " + cursor.getColumnName(a) + " ";
-                    textView.setText(text);
-                    textView.setTextSize(14);
-                    textView.setTextColor(Color.BLACK);
-                    title.addView(textView);
-                }
-                table.addView(title);
-
+                list.clear();
+                Cursor cursor = dbHelper.getRankedData();
                 if (cursor.moveToFirst()){
                     do {
                         if (cursor.getString(1).contains(newText)){
-                            row = new TableRow(ProgressRecord.this);
-                            row.setPadding(5,0,5,0);
-                            for (int a = 0; a < cursor.getColumnCount(); a++){
-                                TextView textView = new TextView(ProgressRecord.this);
-                                String text = " " + cursor.getString(a) + " ";
-                                textView.setText(text);
-                                textView.setTextSize(12);
-                                if (!cursor.getColumnName(a).equals("NAME")) {
-                                    textView.setGravity(Gravity.CENTER);
-                                }
-                                row.addView(textView);
-                            }
-                            table.addView(row);
+                            Details student = new Details(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
+                            list.add(student);
                         }
                     }while (cursor.moveToNext());
+                    myAdapter = new RecordAdapter(getApplicationContext(), list);
+                    recyclerView.setAdapter(myAdapter);
                 }
                 return false;
             }

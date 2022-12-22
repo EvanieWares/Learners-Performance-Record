@@ -3,6 +3,7 @@ package com.evanie.lprmaker;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,7 +16,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.evanie.lprmaker.progress.Details;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -25,6 +29,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,7 +38,8 @@ public class ExportActivity extends AppCompatActivity {
 
     Button btnExport;
     Button btnUpload;
-    Button btnRetrieve;
+    Button btnSyncSubjects;
+    Button btnSyncDatabase;
     String rankBy;
     String appMode;
     String cloudFileName;
@@ -41,8 +47,11 @@ public class ExportActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     StorageReference storage;
     StorageReference cloudFilePath;
+    DatabaseReference databaseReference;
     DBHelper helper;
     ProgressDialog progressDialog;
+    ArrayList<Details> data;
+    String database = "std7";
 
     //Context context = this;
     final String databaseName = "learners.db";
@@ -59,24 +68,41 @@ public class ExportActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("key");
         progressDialog = new ProgressDialog(this);
 
         helper = new DBHelper(ExportActivity.this);
+        data = new ArrayList<>();
 
         btnExport = findViewById(R.id.btnExport);
         btnUpload = findViewById(R.id.btnUploadToCloud);
-        btnRetrieve = findViewById(R.id.btnRetrieveFromCloud);
+        btnSyncSubjects = findViewById(R.id.btnRetrieveFromCloud);
+        btnSyncDatabase = findViewById(R.id.btnRetrieveDatabase);
         rankBy = "";
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         rankBy = preferences.getString("ranking", "");
         appMode = preferences.getString(Utils.keyAppMode, "");
 
-        btnRetrieve.setOnClickListener(view ->{
+        btnSyncSubjects.setOnClickListener(view ->{
             if (!appMode.equals(Utils.valueOffline)) {
                 if (Utils.isNetworkAvailable(ExportActivity.this)) {
                     if (Utils.storagePermissionGranted(ExportActivity.this)){
-                        download();
+                        sync("subjects");
+                    }
+                } else {
+                    Toast.makeText(ExportActivity.this, "Network is not available", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(this, "Your are not logged in", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnSyncDatabase.setOnClickListener(view ->{
+            if (!appMode.equals(Utils.valueOffline)) {
+                if (Utils.isNetworkAvailable(ExportActivity.this)) {
+                    if (Utils.storagePermissionGranted(ExportActivity.this)){
+                        sync("database");
                     }
                 } else {
                     Toast.makeText(ExportActivity.this, "Network is not available", Toast.LENGTH_SHORT).show();
@@ -89,7 +115,7 @@ public class ExportActivity extends AppCompatActivity {
         btnUpload.setOnClickListener(view ->{
             if (Utils.isNetworkAvailable(ExportActivity.this)) {
                 if (Utils.isLoggedIn()) {
-                    uploadFile();
+                    uploadData();
                 } else {
                     Toast.makeText(ExportActivity.this, "Your are not logged in", Toast.LENGTH_SHORT).show();
                 }
@@ -100,8 +126,11 @@ public class ExportActivity extends AppCompatActivity {
 
         btnExport.setOnClickListener(view -> {
             if (Utils.storagePermissionGranted(ExportActivity.this)){
-                helper.exportDB(rankBy);
-                Toast.makeText(ExportActivity.this, "The file was successfully exported to \"LPR/Performance Record.csv\"", Toast.LENGTH_SHORT).show();
+                if ( helper.exportDB()) {
+                    Toast.makeText(ExportActivity.this, "The file was successfully exported to \"Documents/Performance Record.csv\"", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ExportActivity.this, "Unable to export data", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -120,7 +149,7 @@ public class ExportActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> Toast.makeText(ExportActivity.this, "Error: "+ e.getMessage(), Toast.LENGTH_SHORT).show()).addOnCanceledListener(() -> Toast.makeText(ExportActivity.this, "Upload cancelled", Toast.LENGTH_SHORT).show());
     }
 
-    private void downloadFile(String link){
+    private void downloadFile(String link, String dataToSync){
         progressDialog.setMessage("Syncing...");
         progressDialog.setProgress(0);
         progressDialog.show();
@@ -162,24 +191,23 @@ public class ExportActivity extends AppCompatActivity {
                     inputStream.close();
 
                     handler.post(() -> {
-                        if (helper.attachDatabase()){
+                        if (dataToSync.equals("database")){
+                            if (helper.copyDatabase()){
+                                Toast.makeText(ExportActivity.this, "Data is updated", Toast.LENGTH_SHORT)
+                                        .show();
+                                if (file.delete()){
+                                    Log.i("TAG", "Downloaded file was deleted");
+                                }
+                            }else {
+                                Toast.makeText(ExportActivity.this, "Update failed", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        }else {
                             syncDataDialog();
                             if (file.delete()){
                                 Log.i("TAG", "Downloaded file was deleted");
                             }
-                        } else {
-                            Toast.makeText(ExportActivity.this, "Unable to sync data", Toast.LENGTH_SHORT).show();
                         }
-                        /*if (helper.copyDatabase()){
-                            Toast.makeText(ExportActivity.this, "Data is updated", Toast.LENGTH_SHORT)
-                                    .show();
-                            if (file.delete()){
-                                Log.i("TAG", "Downloaded file was deleted");
-                            }
-                        }else {
-                            Toast.makeText(ExportActivity.this, "Update failed", Toast.LENGTH_SHORT)
-                                    .show();
-                        }*/
                         progressDialog.dismiss();
                     });
                 }catch (Exception e){
@@ -193,14 +221,46 @@ public class ExportActivity extends AppCompatActivity {
         progressDialog.setProgress(Integer.parseInt(progress[0]));
     }
 
-    private void download(){
+    private void sync(String dataToSync){
         cloudFileName = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
         cloudFilePath = storage.child("databases").child(cloudFileName+".db");
         cloudFilePath.getDownloadUrl().addOnSuccessListener(uri -> {
             String url = String.valueOf(uri);
             Log.e("TAG", "Download link created: "+url);
-            downloadFile(url);
+            downloadFile(url, dataToSync);
         }).addOnFailureListener(e -> Toast.makeText(ExportActivity.this, "Sync failed", Toast.LENGTH_SHORT).show());
+    }
+
+    private void uploadData(){
+        progressDialog.setMessage("Uploading to cloud...");
+        progressDialog.setMessage("Uploading data...");
+        progressDialog.show();
+        data.clear();
+        Cursor cursor = helper.getRankedData();
+        if (cursor.moveToFirst()){
+            do {
+                Details student = new Details(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
+                data.add(student);
+            }while (cursor.moveToNext());
+        }
+        if (data.size() > 0){
+            databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child(database).setValue(null).addOnSuccessListener(success ->{
+                int count = 1;
+                for (Details d : data){
+                    if (count == data.size()) {
+                        databaseReference.child(database).child(d.getName()).setValue(d)
+                                .addOnFailureListener(error -> Toast.makeText(ExportActivity.this, error.getMessage(), Toast.LENGTH_SHORT)
+                                .show()).addOnSuccessListener(done -> Toast.makeText(ExportActivity.this, "Data was uploaded successfully", Toast.LENGTH_SHORT).show());
+                    }else {
+                        databaseReference.child(database).child(d.getName()).setValue(d)
+                                .addOnFailureListener(error -> Toast.makeText(ExportActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                    count++;
+                }
+            }).addOnFailureListener(error -> Toast.makeText(ExportActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show());
+        }
+        progressDialog.dismiss();
     }
 
     private void syncDataDialog(){
